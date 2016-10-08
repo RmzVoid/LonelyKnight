@@ -14,4 +14,3 @@ std::ostream& operator<<(std::ostream& os, const CellState& state)
 }
 
 //template<typename T> using v_iter = std::vector<T>::iterator;
-
