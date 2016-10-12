@@ -32,7 +32,8 @@ struct Move
 	int dy;
 };
 
-template <int dimX = 8, int dimY = 8> class ChessBoard
+template <int dimX = 8, int dimY = 8> 
+class ChessBoard
 {
 private:
 	// Struct represents a graph's node
@@ -137,12 +138,12 @@ private:
 		std::transform(
 			possibleKnightMoves.begin(), possibleKnightMoves.end(),
 			targets.begin(),
-			[origin](Move m) -> Cell { return{ origin.x + m.dx, origin.y + m.dy }; });
+			[origin](const Move& m) -> Cell { return{ origin.x + m.dx, origin.y + m.dy }; });
 
 		// remove cells there knight can't pass
 		targets.erase(
 			std::remove_if(targets.begin(), targets.end(),
-			[this, origin](Cell c) -> bool { return !isValidKnightMove(origin, c); }),
+			[this, origin](const Cell& c) -> bool { return !isValidKnightMove(origin, c); }),
 			targets.end());
 
 		return targets;
@@ -217,7 +218,7 @@ private:
 		{
 			std::getline(fs, line);
 			int ci = 0;
-			for (auto c : line)
+			for (const auto& c : line)
 			{
 				switch (c)
 				{
@@ -350,7 +351,7 @@ public:
 			bool moveFound = false;
 
 			// in all possible moves from m we find first not visited
-			for (auto nm : m->possibleMove)
+			for (const auto& nm : m->possibleMove)
 			{
 				// here we check if possible move not lead us to visited cell (all visited cells already in path)
 				if (std::find(path.begin(), path.end(), nm) == path.end())
@@ -407,9 +408,9 @@ public:
 
 		while (!solutionFound)
 		{
-			for (auto of : oldFront)
+			for (const auto& of : oldFront)
 			{
-				for (auto pm : of->possibleMove)
+				for (const auto& pm : of->possibleMove)
 				{
 					KnightPossibleMoves* m = boardGraph[pm.y][pm.x];
 					if (m != nullptr && m->waveMark == -1)
@@ -423,7 +424,7 @@ public:
 			if (newFront.empty())
 				break;
 
-			if (std::find_if(newFront.begin(), newFront.end(), [origin](KnightPossibleMoves* kpm) -> bool{return origin == kpm->origin; }) != newFront.end())
+			if (std::find_if(newFront.begin(), newFront.end(), [origin](const KnightPossibleMoves* const kpm) -> bool{return origin == kpm->origin; }) != newFront.end())
 			{
 				solutionFound = true;
 				break;
@@ -441,7 +442,7 @@ public:
 			waveMark = it->waveMark - 1;
 			while (it->origin != target)
 			{
-				for (auto pm : it->possibleMove)
+				for (const auto& pm : it->possibleMove)
 				{
 					KnightPossibleMoves* m = boardGraph[pm.y][pm.x];
 					if (m->waveMark == waveMark)
@@ -536,7 +537,7 @@ public:
 				break;
 
 			// get node from "open" with minimal F
-			nicest = *(std::min_element(open.begin(), open.end(), [](KnightPossibleMoves* e1, KnightPossibleMoves* e2) -> bool { return e1->range + e1->h < e2->range + e2->h; }));
+			nicest = *(std::min_element(open.begin(), open.end(), [](const KnightPossibleMoves* const e1, const KnightPossibleMoves* const e2) -> bool { return e1->range + e1->h < e2->range + e2->h; }));
 
 			// if we reach origin (we traverse from target to origin)
 			if (nicest->origin == origin)
@@ -550,7 +551,7 @@ public:
 			closed.push_back(nicest);
 
 			// find and fill next possible nodes reachable from this node
-			for (auto pm : nicest->possibleMove)
+			for (const auto& pm : nicest->possibleMove)
 			{
 				KnightPossibleMoves* node = boardGraph[pm.y][pm.x];
 

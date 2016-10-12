@@ -44,7 +44,7 @@ int main()
 	{
 		std::cout << "Any path: From " << origin << " to " << target << " found path with " << path.size() << " moves:" << std::endl;
 		int delimiter = 0;
-		for (auto p : path)
+		for (const auto& p : path)
 		{
 			std::cout << p << " ";
 			if (++delimiter % 5 == 0)
@@ -65,7 +65,7 @@ int main()
 	{
 		std::cout << "Shortest path: From " << origin << " to " << target << " found path with " << path.size() << " moves:" << std::endl;
 		int delimiter = 0;
-		for (auto p : path)
+		for (const auto& p : path)
 		{
 			std::cout << p << " ";
 			if (++delimiter % 5 == 0)
@@ -93,7 +93,7 @@ int main()
 	{
 		std::cout << "Shortest path: From " << origin << " to " << target << " found path with " << path.size() << " moves:" << std::endl;
 		int delimiter = 0;
-		for (auto p : path)
+		for (const auto& p : path)
 		{
 			std::cout << p << " ";
 			if (++delimiter % 5 == 0)
